@@ -358,7 +358,7 @@ class _ScrollAbleLineChart extends StatelessWidget {
           getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
             return lineBarsSpot.map((lineBarSpot) {
               return LineTooltipItem(
-                "${lineBarSpot.y}°",
+                "${lineBarSpot.y.toStringAsFixed(0)}°",
                 const TextStyle(
                     color: Colors.black, fontWeight: FontWeight.bold),
               );
@@ -440,7 +440,7 @@ class _WeeksWeather extends StatelessWidget {
             )),
           ),
           const SizedBox(width: 16),
-          Text('$temp°'),
+          Text('${temp.toStringAsFixed(0)}°'),
         ],
       ),
     );

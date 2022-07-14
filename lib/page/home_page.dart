@@ -133,14 +133,14 @@ class _InfoBody extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Text(
-                      '${(data.main.temp).toInt()}°',
+                      '${data.main.temp.toStringAsFixed(0)}°',
                       style: const TextStyle(
                         fontSize: 100,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     Text(
-                      'Feels like ${(data.main.feelsLike).toInt()}°',
+                      'Feels like ${data.main.feelsLike.toStringAsFixed(0)}°',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
