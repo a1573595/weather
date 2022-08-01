@@ -45,9 +45,9 @@ class _Body extends ConsumerWidget {
 }
 
 class _InfoBody extends StatelessWidget {
-  _InfoBody(this.data, {Key? key}) : super(key: key);
+  const _InfoBody(this.data, {Key? key}) : super(key: key);
 
-  OneCall data;
+  final OneCall data;
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +90,9 @@ class _InfoBody extends StatelessWidget {
 }
 
 class _LineChart extends StatelessWidget {
-  _LineChart(this.hourly, {Key? key}) : super(key: key);
+  const _LineChart(this.hourly, {Key? key}) : super(key: key);
 
-  List<Hourly> hourly;
+  final List<Hourly> hourly;
 
   final List<int> showIndexes = const [0, 4, 8, 12, 16, 20, 23];
 
@@ -238,9 +238,9 @@ class _LineChart extends StatelessWidget {
 }
 
 class _ScrollAbleLineChart extends StatelessWidget {
-  _ScrollAbleLineChart(this.hourly, {Key? key}) : super(key: key);
+  const _ScrollAbleLineChart(this.hourly, {Key? key}) : super(key: key);
 
-  List<Hourly> hourly;
+  final List<Hourly> hourly;
 
   LineChartData get chartData => LineChartData(
         showingTooltipIndicators: hourly.mapIndexed((index, value) {
@@ -397,7 +397,7 @@ class _ScrollAbleLineChart extends StatelessWidget {
 class _WeeksWeather extends StatelessWidget {
   _WeeksWeather(this.daily, {Key? key}) : super(key: key);
 
-  List<Daily> daily;
+  final List<Daily> daily;
   late int len;
   late int minValue;
 

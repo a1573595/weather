@@ -59,9 +59,9 @@ class _Body extends ConsumerWidget {
 }
 
 class _InfoBody extends StatelessWidget {
-  _InfoBody(this.data, {Key? key}) : super(key: key);
+  const _InfoBody(this.data, {Key? key}) : super(key: key);
 
-  CurrentWeather data;
+  final CurrentWeather data;
 
   @override
   Widget build(BuildContext context) {

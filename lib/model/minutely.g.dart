@@ -8,7 +8,7 @@ part of 'minutely.dart';
 
 Minutely _$MinutelyFromJson(Map<String, dynamic> json) => Minutely(
       json['dt'] as int,
-      json['precipitation'] as int,
+      (json['precipitation'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$MinutelyToJson(Minutely instance) => <String, dynamic>{

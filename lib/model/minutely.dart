@@ -7,7 +7,7 @@ class Minutely {
   Minutely(this.dt, this.precipitation);
 
   int dt;
-  int precipitation;
+  double precipitation;
 
   factory Minutely.fromJson(Map<String, dynamic> json) =>
       _$MinutelyFromJson(json);
