@@ -38,7 +38,7 @@ dependencies:
   url_launcher: ^6.1.5
   geolocator: ^9.0.1
   intl: ^0.17.0
-  fl_chart: ^0.55.0
+  fl_chart: ^0.55.1
   sprintf: ^6.0.0
   font_awesome_flutter: ^10.1.0
   animated_text_kit: ^4.2.2
