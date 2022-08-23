@@ -1,46 +1,74 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:weather/tool/helper.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:weather/router/app_page.dart';
+import 'package:weather/utils/color_util.dart';
 
-import '../model/current_weather.dart';
-import '../repository/weatherRepository.dart';
-import '../tool/images.dart';
+import '../../generated/l10n.dart';
+import '../../model/current_weather.dart';
+import '../../repository/WeatherRepository.dart';
+import '../../utils/edge_util.dart';
+import '../../utils/helper.dart';
+import '../../utils/image_util.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  static const String _url = 'https://github.com/a1573595';
+  final String _url = 'https://github.com/a1573595';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Weather'),
+        title: Text(S.current.weather),
         actions: [
           IconButton(
             icon: const Icon(
               Icons.info_outline,
             ),
-            onPressed: _launchURL,
+            onPressed: () => launchUrl(_url),
           )
         ],
       ),
-      body: const SafeArea(
-        child: _Body(),
-      ),
+      body: const _LocationPermissionHandler(),
     );
-  }
-
-  _launchURL() {
-    launchUrl(_url);
   }
 }
 
-class _Body extends ConsumerWidget {
-  const _Body({Key? key}) : super(key: key);
+class _LocationPermissionHandler extends StatelessWidget {
+  const _LocationPermissionHandler({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<PermissionStatus>(
+
+        /// 三方權限請求
+        /// ios需在Info.plist與Podfile額外宣告
+        future: Permission.locationWhenInUse.request(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          } else if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            var status = snapshot.data;
+            if (status == PermissionStatus.granted ||
+                status == PermissionStatus.limited) {
+              return const _WeatherDataHandler();
+            } else {
+              return Text(S.current.cant_get_permission);
+            }
+          }
+        });
+  }
+}
+
+class _WeatherDataHandler extends ConsumerWidget {
+  const _WeatherDataHandler({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,21 +80,21 @@ class _Body extends ConsumerWidget {
           } else if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            return _InfoBody(snapshot.data!);
+            return _Body(snapshot.data!);
           }
         });
   }
 }
 
-class _InfoBody extends StatelessWidget {
-  const _InfoBody(this.data, {Key? key}) : super(key: key);
+class _Body extends StatelessWidget {
+  const _Body(this.data, {Key? key}) : super(key: key);
 
   final CurrentWeather data;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeUtil.listviewVerticalPadding,
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
@@ -74,58 +102,51 @@ class _InfoBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                DateFormat("EEEE, d MMMM").format(DateTime.now()),
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
-                ),
+                DateFormat("EEEE, d MMMM").format(
+                    DateTime.fromMillisecondsSinceEpoch(data.dt * 1000)),
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               ElevatedButton(
                 onPressed: null,
                 style: ButtonStyle(
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16))),
-                    backgroundColor: MaterialStateProperty.all(Colors.orange)),
+                    backgroundColor:
+                        MaterialStateProperty.all(ColorUtil.orange)),
                 child: Container(
                   alignment: Alignment.center,
                   width: 80.0,
-                  child: const Text(
+                  child: Text(
                     "Today",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16.0,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(color: ColorUtil.white),
                   ),
                 ),
               ),
             ],
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: EdgeUtil.screenPadding,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage(Images.header), fit: BoxFit.cover),
+                  image: AssetImage(ImageUtil.header), fit: BoxFit.cover),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   data.name,
-                  style: const TextStyle(
-                    fontSize: 42,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: Theme.of(context).textTheme.headlineLarge,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Day ${(data.main.tempMax).toInt()}° ↑ • Night ${(data.main.tempMin).toInt()}° ↓',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  S.current.day_temp_night_temp(
+                      "${(data.main.tempMax).toInt()}",
+                      "${(data.main.tempMin).toInt()}"),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.max,
@@ -134,17 +155,12 @@ class _InfoBody extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       '${data.main.temp.toStringAsFixed(0)}°',
-                      style: const TextStyle(
-                        fontSize: 100,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                     Text(
-                      'Feels like ${data.main.feelsLike.toStringAsFixed(0)}°',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      S.current
+                          .feels_like(data.main.feelsLike.toStringAsFixed(0)),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
                 ),
@@ -152,22 +168,28 @@ class _InfoBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    getWeatherIcon(data.weathers[0].main),
+                    CachedNetworkImage(
+                      height: 40,
+                      width: 40,
+                      imageUrl:
+                          '${ImageUtil.openWeatherImageUrlPrefix}${data.weathers[0].icon}.png',
+                      placeholder: (context, url) => const SizedBox(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error_outline),
+                    ),
                     const SizedBox(
                       width: 8,
                     ),
                     data.weathers[0].description.contains(' ')
                         ? Text(
                             '${data.weathers[0].description.split(' ')[0][0].toUpperCase()}${data.weathers[0].description.split(' ')[0].substring(1)} ${data.weathers[0].description.split(' ')[1][0].toUpperCase()}${data.weathers[0].description.split(' ')[1].substring(1)}',
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500),
+                            style: Theme.of(context).textTheme.bodyLarge,
                             textAlign: TextAlign.center,
                           )
                         : Text(
                             data.weathers[0].description[0].toUpperCase() +
                                 data.weathers[0].description.substring(1),
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500),
+                            style: Theme.of(context).textTheme.bodyLarge,
                             textAlign: TextAlign.center,
                           ),
                     const SizedBox(height: 8)
@@ -178,16 +200,16 @@ class _InfoBody extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: EdgeUtil.screenHorizontalPadding,
             alignment: Alignment.centerLeft,
-            child: const Text(
+            child: Text(
               'Details',
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
           const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: EdgeUtil.screenHorizontalPadding,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -205,34 +227,32 @@ class _InfoBody extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: EdgeUtil.cardPadding,
                                 child: Container(
                                   height: 5.0,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: Colors.lightBlueAccent),
+                                      color: ColorUtil.lightBlue),
                                 ),
                               ),
                               const SizedBox(height: 16),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  FaIcon(FontAwesomeIcons.droplet,
-                                      color: Colors.lightBlueAccent),
+                                children: <Widget>[
+                                  const FaIcon(FontAwesomeIcons.droplet,
+                                      color: ColorUtil.lightBlue),
                                   Text(
                                     "  Humidity",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16),
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 "${data.main.humidity}%",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 24),
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               )
                             ],
                           ),
@@ -250,26 +270,24 @@ class _InfoBody extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: EdgeUtil.cardPadding,
                                 child: Container(
                                   height: 5.0,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: Colors.orangeAccent),
+                                      color: ColorUtil.orangeAccent),
                                 ),
                               ),
                               const SizedBox(height: 16),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  FaIcon(FontAwesomeIcons.solidSun,
-                                      color: Colors.orangeAccent),
+                                children: <Widget>[
+                                  const FaIcon(FontAwesomeIcons.solidSun,
+                                      color: ColorUtil.orangeAccent),
                                   Text(
                                     "  Visibility",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16),
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
                                   ),
                                 ],
                               ),
@@ -278,8 +296,8 @@ class _InfoBody extends StatelessWidget {
                                 data.visibility.toString() == 'null'
                                     ? 'N/A'
                                     : '${data.visibility} m',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 24),
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               )
                             ],
                           ),
@@ -303,34 +321,32 @@ class _InfoBody extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: EdgeUtil.cardPadding,
                                 child: Container(
                                   height: 5.0,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: Colors.greenAccent),
+                                      color: ColorUtil.greenAccent),
                                 ),
                               ),
                               const SizedBox(height: 16),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  FaIcon(FontAwesomeIcons.wind,
-                                      color: Colors.greenAccent),
+                                children: <Widget>[
+                                  const FaIcon(FontAwesomeIcons.wind,
+                                      color: ColorUtil.greenAccent),
                                   Text(
                                     "  Wind",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16),
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 "${data.wind.speed.toStringAsFixed(1)} km/h",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 24),
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               )
                             ],
                           ),
@@ -348,35 +364,32 @@ class _InfoBody extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: EdgeUtil.cardPadding,
                                 child: Container(
                                   height: 5.0,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: Colors.purpleAccent),
+                                      color: ColorUtil.purpleAccent),
                                 ),
                               ),
                               const SizedBox(height: 16),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  FaIcon(FontAwesomeIcons.weightScale,
-                                      color: Colors.purpleAccent),
+                                children: <Widget>[
+                                  const FaIcon(FontAwesomeIcons.weightScale,
+                                      color: ColorUtil.purpleAccent),
                                   Text(
                                     "  Pressure",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16),
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 "${data.main.pressure} hPa",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 24.0),
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               )
                             ],
                           ),
@@ -391,44 +404,24 @@ class _InfoBody extends StatelessWidget {
           const SizedBox(height: 16),
           Center(
             child: ElevatedButton(
-              onPressed: () => context.go('/home/detail'),
+              onPressed: () {
+                var router = GoRouter.of(context);
+                router.go('${router.location}${AppPage.detail.fullPath}');
+              },
               style: ButtonStyle(
                   elevation: MaterialStateProperty.all(4),
-                  backgroundColor: MaterialStateProperty.all(Colors.orange)),
-              child: const Text(
+                  backgroundColor: MaterialStateProperty.all(ColorUtil.orange)),
+              child: Text(
                 "More Detail",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16.0,
-                ),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(color: ColorUtil.white),
               ),
             ),
           )
         ],
       ),
     );
-  }
-}
-
-FaIcon getWeatherIcon(String main) {
-  switch (main) {
-    case 'Clouds':
-      return const FaIcon(FontAwesomeIcons.cloud, color: Colors.grey);
-    case 'Clear':
-      return const FaIcon(FontAwesomeIcons.solidSun,
-          color: Colors.orangeAccent);
-    case 'Atmosphere':
-      return const FaIcon(FontAwesomeIcons.smog, color: Colors.black);
-    case 'Snow':
-      return const FaIcon(FontAwesomeIcons.snowflake, color: Colors.cyanAccent);
-    case 'Rain':
-      return const FaIcon(FontAwesomeIcons.cloudRain, color: Colors.blue);
-    case 'Drizzle':
-      return const FaIcon(FontAwesomeIcons.droplet, color: Colors.blue);
-    case 'Thunderstorm':
-      return const FaIcon(FontAwesomeIcons.cloudBolt, color: Colors.blue);
-    default:
-      return const FaIcon(FontAwesomeIcons.sun, color: Colors.orangeAccent);
   }
 }

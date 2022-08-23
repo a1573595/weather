@@ -1,8 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather/model/one_call.dart';
 
-import '../api/api_client.dart';
+import '../api/weather_client.dart';
 import '../model/current_weather.dart';
 
 final weatherRepository = Provider((ref) => WeatherRepository(ref));
@@ -12,15 +13,16 @@ class WeatherRepository {
 
   final Ref ref;
 
-  Future<CurrentWeather> currentWeather() async {
+  Future<CurrentWeather> currentWeather({CancelToken? cancelToken}) async {
     Position position = await _determinePosition();
-    return await ApiClient()
-        .currentWeather(position.latitude, position.longitude);
+    return await WeatherClient().currentWeather(
+        cancelToken ?? CancelToken(), position.latitude, position.longitude);
   }
 
-  Future<OneCall> oneCall() async {
+  Future<OneCall> oneCall({CancelToken? cancelToken}) async {
     Position position = await _determinePosition();
-    return await ApiClient().oneCall(position.latitude, position.longitude);
+    return await WeatherClient().oneCall(
+        cancelToken ?? CancelToken(), position.latitude, position.longitude);
   }
 
   Future<Position> _determinePosition() async {

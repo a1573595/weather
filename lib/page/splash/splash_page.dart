@@ -1,8 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:weather/router/app_page.dart';
+import 'package:weather/utils/color_util.dart';
 
-import '../tool/images.dart';
+import '../../utils/image_util.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -10,13 +12,13 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.black,
+      color: ColorUtil.black,
       child: Stack(
-        fit: StackFit.expand,
         children: const [
+          /// 原生圖片淡入動畫
           FadeInImage(
-            placeholder: AssetImage(Images.fade),
-            image: AssetImage(Images.splash),
+            placeholder: AssetImage(ImageUtil.fade),
+            image: AssetImage(ImageUtil.splash),
             fadeInDuration: Duration(milliseconds: 500),
             fit: BoxFit.fitHeight,
           ),
@@ -41,7 +43,9 @@ class _BodyState extends State<_Body> {
   void initState() {
     super.initState();
 
+    /// 等待畫面完成第一次繪製
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      /// 改變狀態
       setState(() {
         _alignment = Alignment.center;
       });
@@ -59,29 +63,27 @@ class _BodyState extends State<_Body> {
         children: <Widget>[
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 8),
-            child: Image.asset('assets/images/logo.png'),
+            child: Image.asset(ImageUtil.logo),
           ),
+
+          /// DefaultTextStyle可以讓子Text默認使用一樣的style
           DefaultTextStyle(
-            style: const TextStyle(
-                fontSize: 48.0,
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge!
+                .copyWith(color: ColorUtil.white),
+
+            /// 三方動畫文字
             child: AnimatedTextKit(
               animatedTexts: [
                 WavyAnimatedText('Weather'),
               ],
               isRepeatingAnimation: false,
-              onFinished: _goToHomePage,
+              onFinished: () => context.go(AppPage.home.fullPath),
             ),
           ),
         ],
       ),
     );
-  }
-
-  void _goToHomePage() {
-    // Future.delayed(const Duration(milliseconds: 1000), () {
-    context.go('/home');
-    // });
   }
 }

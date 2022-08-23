@@ -1,0 +1,7 @@
+{
+  "weather": "Weather",
+  "cant_get_permission": "can't get permission",
+  "cant_get_location": "can't get location",
+  "day_temp_night_temp": "Day {dayTemp}° ↑ • Night {nightTemp}° ↓",
+  "feels_like": "Feels like {temp}°"
+}

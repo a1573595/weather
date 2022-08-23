@@ -1,0 +1,7 @@
+{
+  "weather": "天氣",
+  "cant_get_permission": "無法取得取權",
+  "cant_get_location": "無法取得定位",
+  "day_temp_night_temp": "日 {dayTemp}° ↑ • 夜 {nightTemp}° ↓",
+  "feels_like": "體感 {temp}°"
+}
