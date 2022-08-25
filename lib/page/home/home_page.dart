@@ -53,7 +53,7 @@ class _LocationPermissionHandler extends ConsumerWidget {
 
         /// 三方權限請求
         /// ios需在Info.plist與Podfile額外宣告
-        future: ref.watch(locationRequestProvider.future),
+        future: ref.watch(_locationRequestProvider.future),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text(snapshot.error.toString());
@@ -69,7 +69,7 @@ class _LocationPermissionHandler extends ConsumerWidget {
               WidgetsBinding.instance.addObserver(LifecycleEventHandler(
 
                   /// 刷新Provider
-                  resumeCallBack: () => ref.refresh(locationRequestProvider)));
+                  resumeCallBack: () => ref.refresh(_locationRequestProvider)));
 
               return Center(
                 child: ElevatedButton(
@@ -88,7 +88,7 @@ class _LocationEnableHandler extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
-        stream: ref.watch(isLocationEnableProvider.stream),
+        stream: ref.watch(_isLocationEnableProvider.stream),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text(snapshot.error.toString());
@@ -449,6 +449,7 @@ class _Body extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 var router = GoRouter.of(context);
+                /// 前往/home.detail
                 router.go('${router.location}${AppPage.detail.fullPath}');
               },
               style: ButtonStyle(

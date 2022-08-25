@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'dio_logger.dart';
 
 class BaseDio {
+  /// Dart單例模式
   static final BaseDio _instance = BaseDio._internal();
 
   factory BaseDio() {

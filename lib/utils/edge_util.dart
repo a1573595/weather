@@ -13,6 +13,5 @@ class EdgeUtil {
   static const EdgeInsets listviewVerticalPadding =
       EdgeInsets.symmetric(vertical: screenVertical);
 
-  static const EdgeInsets cardPadding =
-      EdgeInsets.symmetric(horizontal: 8.0);
+  static const EdgeInsets cardPadding = EdgeInsets.symmetric(horizontal: 8.0);
 }
