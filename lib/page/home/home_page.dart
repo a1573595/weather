@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -14,6 +16,9 @@ import '../../repository/WeatherRepository.dart';
 import '../../utils/edge_util.dart';
 import '../../utils/helper.dart';
 import '../../utils/image_util.dart';
+import '../../utils/lifecycle_event_handler.dart';
+
+part 'home_view_model.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -39,16 +44,16 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _LocationPermissionHandler extends StatelessWidget {
+class _LocationPermissionHandler extends ConsumerWidget {
   const _LocationPermissionHandler({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<PermissionStatus>(
 
         /// 三方權限請求
         /// ios需在Info.plist與Podfile額外宣告
-        future: Permission.locationWhenInUse.request(),
+        future: ref.watch(locationRequestProvider.future),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text(snapshot.error.toString());
@@ -58,9 +63,47 @@ class _LocationPermissionHandler extends StatelessWidget {
             var status = snapshot.data;
             if (status == PermissionStatus.granted ||
                 status == PermissionStatus.limited) {
+              return const _LocationEnableHandler();
+            } else {
+              /// 監聽APP是否從背景返回（ex.修改權限）
+              WidgetsBinding.instance.addObserver(LifecycleEventHandler(
+
+                  /// 刷新Provider
+                  resumeCallBack: () => ref.refresh(locationRequestProvider)));
+
+              return Center(
+                child: ElevatedButton(
+                    onPressed: () => Geolocator.openAppSettings(),
+                    child: Text(S.current.cant_get_permission)),
+              );
+            }
+          }
+        });
+  }
+}
+
+class _LocationEnableHandler extends ConsumerWidget {
+  const _LocationEnableHandler({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return StreamBuilder(
+        stream: ref.watch(isLocationEnableProvider.stream),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          } else if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            var status = snapshot.data;
+            if (status == true) {
               return const _WeatherDataHandler();
             } else {
-              return Text(S.current.cant_get_permission);
+              return Center(
+                child: ElevatedButton(
+                    onPressed: () => Geolocator.openLocationSettings(),
+                    child: Text(S.current.cant_get_location)),
+              );
             }
           }
         });
