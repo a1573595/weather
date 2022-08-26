@@ -39,7 +39,7 @@ class DioLogger extends Interceptor {
 
     var buffer = StringBuffer();
     buffer.writeln(
-        'Respond ${response.requestOptions.method} ${response.statusMessage}');
+        'Respond ${response.requestOptions.method} ${response.statusCode}:${response.statusMessage}');
     buffer.writeln('${response.requestOptions.uri}');
     buffer.write('Body: ${response.data.toString()}');
 
