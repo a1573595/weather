@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cant_get_permission": MessageLookupByLibrary.simpleMessage("無法取得取權"),
         "day_temp_night_temp": m0,
         "feels_like": m1,
+        "press_again_to_exit": MessageLookupByLibrary.simpleMessage("再按一次離開"),
         "weather": MessageLookupByLibrary.simpleMessage("天氣")
       };
 }

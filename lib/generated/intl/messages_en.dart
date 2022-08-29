@@ -33,6 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("can\'t get permission"),
         "day_temp_night_temp": m0,
         "feels_like": m1,
+        "press_again_to_exit":
+            MessageLookupByLibrary.simpleMessage("Press again to exit."),
         "weather": MessageLookupByLibrary.simpleMessage("Weather")
       };
 }

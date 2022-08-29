@@ -99,6 +99,16 @@ class S {
       args: [temp],
     );
   }
+
+  /// `Press again to exit.`
+  String get press_again_to_exit {
+    return Intl.message(
+      'Press again to exit.',
+      name: 'press_again_to_exit',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

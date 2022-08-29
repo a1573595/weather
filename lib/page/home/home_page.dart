@@ -39,13 +39,45 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: const _LocationPermissionHandler(),
+      body: PopScope(),
     );
   }
 }
 
-class _LocationPermissionHandler extends ConsumerWidget {
-  const _LocationPermissionHandler({Key? key}) : super(key: key);
+/// 偵測Back返回事件
+class PopScope extends StatelessWidget {
+  PopScope({Key? key}) : super(key: key);
+
+  DateTime? currentBackPressTime;
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () => _popBack(context),
+      child: const _LocationPermissionScope(),
+    );
+  }
+
+  Future<bool> _popBack(BuildContext context) async {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
+      currentBackPressTime = now;
+
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(S.current.press_again_to_exit),
+      ));
+
+      return false;
+    }
+    return true;
+  }
+}
+
+/// 檢測定位是否授權
+class _LocationPermissionScope extends ConsumerWidget {
+  const _LocationPermissionScope({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,7 +95,7 @@ class _LocationPermissionHandler extends ConsumerWidget {
             var status = snapshot.data;
             if (status == PermissionStatus.granted ||
                 status == PermissionStatus.limited) {
-              return const _LocationEnableHandler();
+              return const _LocationEnableScope();
             } else {
               /// 監聽APP是否從背景返回（ex.修改權限）
               WidgetsBinding.instance.addObserver(LifecycleEventHandler(
@@ -82,8 +114,9 @@ class _LocationPermissionHandler extends ConsumerWidget {
   }
 }
 
-class _LocationEnableHandler extends ConsumerWidget {
-  const _LocationEnableHandler({Key? key}) : super(key: key);
+/// 檢測定位是否開啟
+class _LocationEnableScope extends ConsumerWidget {
+  const _LocationEnableScope({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -449,6 +482,7 @@ class _Body extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 var router = GoRouter.of(context);
+
                 /// 前往/home.detail
                 router.go('${router.location}${AppPage.detail.fullPath}');
               },
