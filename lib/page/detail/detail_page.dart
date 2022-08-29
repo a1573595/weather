@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:weather/utils/helper.dart';
 import 'package:weather/utils/image_util.dart';
 
@@ -46,7 +47,7 @@ class _Body extends ConsumerWidget {
           if (snapshot.hasError) {
             return Text(snapshot.error.toString());
           } else if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
+            return const _BlankBody();
           } else {
             /// TODO('是否有其他方法？')
             /// 逾時一小時刷新資料
@@ -58,12 +59,85 @@ class _Body extends ConsumerWidget {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                 ref.refresh(oneCallProvider);
               });
-              return const Center(child: CircularProgressIndicator());
+              return const _BlankBody();
             } else {
               return _InfoBody(snapshot.data!);
             }
           }
         });
+  }
+}
+
+class _BlankBody extends StatelessWidget {
+  const _BlankBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      clipBehavior: Clip.antiAlias,
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+              width: double.infinity,
+              color: Colors.white,
+              child: Text(
+                '',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+                width: double.infinity,
+                height: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  color: Colors.white,
+                )),
+          ),
+          const SizedBox(
+            height: 28,
+          ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+              width: double.infinity,
+              color: Colors.white,
+              child: Text(
+                '',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+                width: double.infinity,
+                height: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  color: Colors.white,
+                )),
+          ),
+        ],
+      ),
+    );
   }
 }
 

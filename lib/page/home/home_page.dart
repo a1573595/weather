@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:weather/router/app_page.dart';
 import 'package:weather/utils/color_util.dart';
 
@@ -154,11 +155,156 @@ class _WeatherDataHandler extends ConsumerWidget {
           if (snapshot.hasError) {
             return Text(snapshot.error.toString());
           } else if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
+            return const _BlankBody();
           } else {
             return _Body(snapshot.data!);
           }
         });
+  }
+}
+
+class _BlankBody extends StatelessWidget {
+  const _BlankBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: EdgeUtil.screenPadding,
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+              width: double.infinity,
+              color: Colors.white,
+              child: Text(
+                '',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+              width: double.infinity,
+              color: Colors.white,
+              child: Text(
+                '',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+                width: double.infinity,
+                height: 180,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  color: Colors.white,
+                )),
+          ),
+          const SizedBox(
+            height: 36,
+          ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+              width: double.infinity,
+              color: Colors.white,
+              child: Text(
+                '',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 36,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                  child: Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                child: Container(
+                    width: double.infinity,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      color: Colors.white,
+                    )),
+              )),
+              const SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                  child: Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                child: Container(
+                    width: double.infinity,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      color: Colors.white,
+                    )),
+              )),
+            ],
+          ),
+          const SizedBox(
+            height: 36,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                  child: Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                child: Container(
+                    width: double.infinity,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      color: Colors.white,
+                    )),
+              )),
+              const SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                  child: Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                child: Container(
+                    width: double.infinity,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      color: Colors.white,
+                    )),
+              )),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
