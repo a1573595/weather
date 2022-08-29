@@ -18,8 +18,9 @@ class DioLogger extends Interceptor {
     if (options.method != 'GET') {
       final dynamic data = options.data;
       if (data != null) {
-        if (data is Map) buffer.write('Maps: ${data.toString()}');
-        if (data is FormData) {
+        if (data is Map) {
+          buffer.write('Maps: ${data.toString()}');
+        } else if (data is FormData) {
           final formDataMap = <String, dynamic>{}
             ..addEntries(data.fields)
             ..addEntries(data.files);
