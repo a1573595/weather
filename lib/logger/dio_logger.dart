@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:weather/utils/logger.dart';
+import 'package:weather/logger/logger.dart';
 
 class DioLogger extends Interceptor {
   @override

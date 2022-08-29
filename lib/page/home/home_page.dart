@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:weather/logger/log_console_on_shake.dart';
 import 'package:weather/router/app_page.dart';
 import 'package:weather/utils/color_util.dart';
 
@@ -28,6 +29,21 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// 震動監聽
+    return LogConsoleOnShake(Scaffold(
+      appBar: AppBar(
+        title: Text(S.current.weather),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.info_outline,
+            ),
+            onPressed: () => launchUrl(_url),
+          )
+        ],
+      ),
+      body: PopScope(),
+    ));
     return Scaffold(
       appBar: AppBar(
         title: Text(S.current.weather),

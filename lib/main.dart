@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather/generated/l10n.dart';
 import 'package:weather/router/app_router.dart';
 import 'package:weather/utils/color_util.dart';
-import 'package:weather/utils/logger.dart';
+import 'package:weather/logger/logger.dart';
 import 'package:weather/utils/text_util.dart';
 
 void main() async {

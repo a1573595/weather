@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import 'dio_logger.dart';
+import '../logger/dio_logger.dart';
 
 class BaseDio {
   /// Dart單例模式
