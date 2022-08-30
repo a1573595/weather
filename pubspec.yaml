@@ -54,6 +54,7 @@ dependencies:
   #  pretty_dio_logger: ^1.1.1
   retrofit: ^3.0.1+1
   cached_network_image: ^3.2.1
+  easy_refresh: ^3.0.4+2
   fl_chart: ^0.55.1
 
 dev_dependencies:

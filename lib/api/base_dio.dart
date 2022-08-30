@@ -1,4 +1,6 @@
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:weather/logger/header_interceptor.dart';
 
 import '../logger/dio_logger.dart';
 
@@ -16,8 +18,25 @@ class BaseDio {
     final Dio dio = Dio();
     /// 配置收送Timeout
     dio.options = BaseOptions(receiveTimeout: 15000, connectTimeout: 15000);
+    /// 配置標頭檔
+    dio.interceptors.add(HeaderInterceptor());
     dio.interceptors.add(DioLogger());
     // dio.interceptors.add(PrettyDioLogger(requestBody: true));
+
+    /// ignore certification
+    String PEM = 'XXXXX'; // certificate content
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (cert, String host, int port) {
+        // if(cert.pem == PEM) {
+        //   // Verify the certificate
+        //   return true;
+        // }
+        // return false;
+        return true;
+      };
+    };
 
     return dio;
   }

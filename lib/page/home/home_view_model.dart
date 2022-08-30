@@ -5,8 +5,11 @@ var _locationRequestProvider =
   return Permission.locationWhenInUse.request();
 });
 
-final _isLocationEnableProvider =
-StreamProvider.autoDispose<bool>((ref) {
+final _isLocationEnableProvider = StreamProvider.autoDispose<bool>((ref) {
   return Stream.periodic(const Duration(seconds: 3))
       .asyncMap((_) => Geolocator.isLocationServiceEnabled());
+});
+
+var _currentWeatherProvider = FutureProvider.autoDispose<CurrentWeather>((ref) {
+  return ref.read(weatherRepository).currentWeather();
 });
