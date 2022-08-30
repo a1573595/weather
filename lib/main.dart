@@ -6,6 +6,7 @@ import 'package:weather/generated/l10n.dart';
 import 'package:weather/router/app_router.dart';
 import 'package:weather/utils/color_util.dart';
 import 'package:weather/logger/logger.dart';
+import 'package:weather/utils/notification_util.dart';
 import 'package:weather/utils/text_util.dart';
 
 void main() async {
@@ -14,6 +15,7 @@ void main() async {
 
   /// 初始化logger
   await logger.init();
+  await notificationUtil.init();
 
   logger.i('Start App');
 

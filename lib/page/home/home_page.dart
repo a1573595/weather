@@ -20,6 +20,7 @@ import '../../utils/edge_util.dart';
 import '../../utils/helper.dart';
 import '../../utils/image_util.dart';
 import '../../utils/lifecycle_event_handler.dart';
+import '../../utils/notification_util.dart';
 
 part 'home_view_model.dart';
 
@@ -174,7 +175,13 @@ class _WeatherDataHandler extends ConsumerWidget {
           } else if (!snapshot.hasData) {
             return const _BlankBody();
           } else {
-            return _Body(snapshot.data!);
+            var data = snapshot.data!;
+
+            notificationUtil.sendNormal(data.weathers[0].description,
+                '${data.main.temp.toStringAsFixed(0)}°',
+                notificationId: 1);
+
+            return _Body(data);
           }
         });
   }

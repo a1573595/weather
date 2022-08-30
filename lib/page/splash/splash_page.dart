@@ -14,6 +14,7 @@ class SplashPage extends StatelessWidget {
     return Material(
       color: ColorUtil.black,
       child: Stack(
+        fit: StackFit.expand,
         children: const [
           /// 原生圖片淡入動畫
           FadeInImage(
