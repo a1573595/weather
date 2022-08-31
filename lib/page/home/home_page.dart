@@ -205,7 +205,7 @@ class _BlankBody extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 16,
+            height: 20,
           ),
           Shimmer.fromColors(
             baseColor: Colors.grey.shade300,
@@ -220,7 +220,7 @@ class _BlankBody extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 24,
+            height: 20,
           ),
           Shimmer.fromColors(
             baseColor: Colors.grey.shade300,
@@ -234,7 +234,7 @@ class _BlankBody extends StatelessWidget {
                 )),
           ),
           const SizedBox(
-            height: 36,
+            height: 40,
           ),
           Shimmer.fromColors(
             baseColor: Colors.grey.shade300,
@@ -249,7 +249,7 @@ class _BlankBody extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 36,
+            height: 24,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -260,7 +260,7 @@ class _BlankBody extends StatelessWidget {
                 highlightColor: Colors.grey.shade100,
                 child: Container(
                     width: double.infinity,
-                    height: 100,
+                    height: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
                       color: Colors.white,
@@ -275,7 +275,7 @@ class _BlankBody extends StatelessWidget {
                 highlightColor: Colors.grey.shade100,
                 child: Container(
                     width: double.infinity,
-                    height: 100,
+                    height: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
                       color: Colors.white,
@@ -284,7 +284,7 @@ class _BlankBody extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 36,
+            height: 12,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -295,7 +295,7 @@ class _BlankBody extends StatelessWidget {
                 highlightColor: Colors.grey.shade100,
                 child: Container(
                     width: double.infinity,
-                    height: 100,
+                    height: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
                       color: Colors.white,
@@ -310,7 +310,7 @@ class _BlankBody extends StatelessWidget {
                 highlightColor: Colors.grey.shade100,
                 child: Container(
                     width: double.infinity,
-                    height: 100,
+                    height: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
                       color: Colors.white,
