@@ -21,6 +21,7 @@ import '../../utils/helper.dart';
 import '../../utils/image_util.dart';
 import '../../utils/lifecycle_event_handler.dart';
 import '../../utils/notification_util.dart';
+import '../../widget/detail_card.dart';
 
 part 'home_view_model.dart';
 
@@ -466,97 +467,21 @@ class _Body extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Expanded(
-                        child: Card(
-                          elevation: 4,
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 140.0,
-                            height: 120.0,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Padding(
-                                  padding: edgeUtil.cardPadding,
-                                  child: Container(
-                                    height: 5.0,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                        color: ColorUtil.lightBlue),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    const FaIcon(FontAwesomeIcons.droplet,
-                                        color: ColorUtil.lightBlue),
-                                    Text(
-                                      "  Humidity",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  "${data.main.humidity}%",
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                        child: DetailCard(
+                            ColorUtil.lightBlue,
+                            FontAwesomeIcons.droplet,
+                            "Humidity",
+                            "${data.main.humidity}%"),
                       ),
                       Expanded(
-                        child: Card(
-                          elevation: 4,
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 140.0,
-                            height: 120.0,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Padding(
-                                  padding: edgeUtil.cardPadding,
-                                  child: Container(
-                                    height: 5.0,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                        color: ColorUtil.orangeAccent),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    const FaIcon(FontAwesomeIcons.solidSun,
-                                        color: ColorUtil.orangeAccent),
-                                    Text(
-                                      "  Visibility",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  data.visibility.toString() == 'null'
-                                      ? 'N/A'
-                                      : '${data.visibility} m',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
+                        child: DetailCard(
+                            ColorUtil.orangeAccent,
+                            FontAwesomeIcons.solidSun,
+                            "Visibility",
+                            data.visibility.toString() == 'null'
+                                ? 'N/A'
+                                : '${data.visibility} m'),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -564,95 +489,19 @@ class _Body extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Expanded(
-                        child: Card(
-                          elevation: 4,
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 140.0,
-                            height: 120.0,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Padding(
-                                  padding: edgeUtil.cardPadding,
-                                  child: Container(
-                                    height: 5.0,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                        color: ColorUtil.greenAccent),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    const FaIcon(FontAwesomeIcons.wind,
-                                        color: ColorUtil.greenAccent),
-                                    Text(
-                                      "  Wind",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  "${data.wind.speed.toStringAsFixed(1)} km/h",
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                        child: DetailCard(
+                            ColorUtil.greenAccent,
+                            FontAwesomeIcons.wind,
+                            "Wind",
+                            "${data.wind.speed.toStringAsFixed(1)} km/h"),
                       ),
                       Expanded(
-                        child: Card(
-                          elevation: 4,
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 140.0,
-                            height: 120.0,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Padding(
-                                  padding: edgeUtil.cardPadding,
-                                  child: Container(
-                                    height: 5.0,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                        color: ColorUtil.purpleAccent),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    const FaIcon(FontAwesomeIcons.weightScale,
-                                        color: ColorUtil.purpleAccent),
-                                    Text(
-                                      "  Pressure",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  "${data.main.pressure} hPa",
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
+                        child: DetailCard(
+                            ColorUtil.purpleAccent,
+                            FontAwesomeIcons.weightScale,
+                            "Pressure",
+                            "${data.main.pressure} hPa"),
+                      ),
                     ],
                   )
                 ],
