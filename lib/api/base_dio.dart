@@ -16,8 +16,10 @@ class BaseDio {
 
   Dio getDio() {
     final Dio dio = Dio();
+
     /// 配置收送Timeout
     dio.options = BaseOptions(receiveTimeout: 15000, connectTimeout: 15000);
+
     /// 配置標頭檔
     dio.interceptors.add(HeaderInterceptor());
     dio.interceptors.add(DioLogger());
@@ -25,18 +27,18 @@ class BaseDio {
 
     /// ignore certification
     String PEM = 'XXXXX'; // certificate content
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (client) {
-      client.badCertificateCallback =
-          (cert, String host, int port) {
-        // if(cert.pem == PEM) {
-        //   // Verify the certificate
-        //   return true;
-        // }
-        // return false;
-        return true;
+    if (dio.httpClientAdapter is DefaultHttpClientAdapter) {
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (client) {
+        client.badCertificateCallback = (cert, String host, int port) {
+          // return cert.pem == PEM;
+          return true;
+        };
       };
-    };
+    }
+    /* else if(dio.httpClientAdapter is BrowserHttpClientAdapter) {
+
+    } */
 
     return dio;
   }

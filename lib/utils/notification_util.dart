@@ -73,7 +73,7 @@ class NotificationUtil {
 
   void sendNormal(String title, String body,
       {int? notificationId, String? params}) {
-    /// android配置
+    /// Android notification channel配置與Notification屬性
     var androidDetails = const AndroidNotificationDetails(
       /// 給系統的識別ID
       'normalChannel',

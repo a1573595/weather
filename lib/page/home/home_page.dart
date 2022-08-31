@@ -46,20 +46,6 @@ class HomePage extends StatelessWidget {
       ),
       body: _PopScope(),
     ));
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.current.weather),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.info_outline,
-            ),
-            onPressed: () => launchUrl(_url),
-          )
-        ],
-      ),
-      body: _PopScope(),
-    );
   }
 }
 
@@ -73,7 +59,12 @@ class _PopScope extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => _popBack(context),
-      child: const _LocationPermissionScope(),
+
+      /// permission_handler不支援Web
+      /// 因此Web直接請求定位
+      child: !kIsWeb
+          ? const _LocationPermissionScope()
+          : const _LocationEnableScope(),
     );
   }
 
@@ -193,7 +184,7 @@ class _BlankBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeUtil.screenPadding,
+      padding: edgeUtil.screenPadding,
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
@@ -353,7 +344,7 @@ class _Body extends ConsumerWidget {
         _controller.resetFooter();
       },
       child: SingleChildScrollView(
-        padding: EdgeUtil.listviewVerticalPadding,
+        padding: edgeUtil.listviewVerticalPadding,
         child: Column(
           children: [
             Row(
@@ -386,7 +377,7 @@ class _Body extends ConsumerWidget {
               ],
             ),
             Container(
-              padding: EdgeUtil.screenPadding,
+              padding: edgeUtil.screenPadding,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage(ImageUtil.header), fit: BoxFit.cover),
@@ -458,7 +449,7 @@ class _Body extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Container(
-              padding: EdgeUtil.screenHorizontalPadding,
+              padding: edgeUtil.screenHorizontalPadding,
               alignment: Alignment.centerLeft,
               child: Text(
                 'Details',
@@ -467,7 +458,7 @@ class _Body extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Padding(
-              padding: EdgeUtil.screenHorizontalPadding,
+              padding: edgeUtil.screenHorizontalPadding,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -485,7 +476,7 @@ class _Body extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeUtil.cardPadding,
+                                  padding: edgeUtil.cardPadding,
                                   child: Container(
                                     height: 5.0,
                                     decoration: BoxDecoration(
@@ -530,7 +521,7 @@ class _Body extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeUtil.cardPadding,
+                                  padding: edgeUtil.cardPadding,
                                   child: Container(
                                     height: 5.0,
                                     decoration: BoxDecoration(
@@ -583,7 +574,7 @@ class _Body extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeUtil.cardPadding,
+                                  padding: edgeUtil.cardPadding,
                                   child: Container(
                                     height: 5.0,
                                     decoration: BoxDecoration(
@@ -628,7 +619,7 @@ class _Body extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeUtil.cardPadding,
+                                  padding: edgeUtil.cardPadding,
                                   child: Container(
                                     height: 5.0,
                                     decoration: BoxDecoration(
@@ -676,10 +667,8 @@ class _Body extends ConsumerWidget {
                   /// 前往/home.detail
                   router.go('${router.location}${AppPage.detail.fullPath}');
                 },
-                style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(4),
-                    backgroundColor:
-                        MaterialStateProperty.all(ColorUtil.orange)),
+                style: ElevatedButton.styleFrom(
+                    elevation: 4, backgroundColor: ColorUtil.orange),
                 child: Text(
                   "More Detail",
                   style: Theme.of(context)

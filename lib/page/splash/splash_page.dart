@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weather/router/app_page.dart';
 import 'package:weather/utils/color_util.dart';
@@ -62,9 +63,9 @@ class _BodyState extends State<_Body> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 8),
-            child: Image.asset(ImageUtil.logo),
+          Image.asset(height: 150.r, width: 150.r, ImageUtil.logo),
+          const SizedBox(
+            height: 8,
           ),
 
           /// DefaultTextStyle可以讓子Text默認使用一樣的style

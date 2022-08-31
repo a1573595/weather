@@ -1,17 +1,32 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class EdgeUtil {
-  static const screenHorizontal = 24.0;
-  static const screenVertical = 16.0;
+final edgeUtil = _EdgeUtil();
 
-  static const EdgeInsets screenPadding = EdgeInsets.symmetric(
-      horizontal: screenHorizontal, vertical: screenVertical);
+/// EdgeUtil需要等待ScreenUtilInit
+class _EdgeUtil {
+  late double screenHorizontal;
+  late double screenVertical;
 
-  static const EdgeInsets screenHorizontalPadding =
-      EdgeInsets.symmetric(horizontal: screenHorizontal);
+  late EdgeInsets screenPadding;
+  late EdgeInsets screenHorizontalPadding;
 
-  static const EdgeInsets listviewVerticalPadding =
-      EdgeInsets.symmetric(vertical: screenVertical);
+  late EdgeInsets listviewVerticalPadding;
 
-  static const EdgeInsets cardPadding = EdgeInsets.symmetric(horizontal: 8.0);
+  late EdgeInsets cardPadding;
+
+  init() {
+    screenHorizontal = 24.r;
+    screenVertical = 16.r;
+
+    screenPadding = EdgeInsets.symmetric(
+        horizontal: screenHorizontal, vertical: screenVertical);
+
+    screenHorizontalPadding =
+        EdgeInsets.symmetric(horizontal: screenHorizontal);
+
+    listviewVerticalPadding = EdgeInsets.symmetric(vertical: screenVertical);
+
+    cardPadding = EdgeInsets.all(8.r);
+  }
 }

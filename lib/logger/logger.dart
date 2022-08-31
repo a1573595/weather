@@ -14,8 +14,10 @@ class _Logger {
     /// log檔輸出位置
     Directory? directory;
 
-    /// web不支援_operatingSystem會跳出提示
+    /// Web不支援_operatingSystem會跳出提示
     try {
+      /// Android需要註冊WRITE_EXTERNAL_STORAGE才能寫入
+      /// iOS需要註冊LSSupportsOpeningDocumentsInPlace、UIFileSharingEnabled才能共享
       directory = Platform.isAndroid
           ? await getExternalStorageDirectory()
           : await getApplicationDocumentsDirectory();
