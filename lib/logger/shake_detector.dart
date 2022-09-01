@@ -1,8 +1,4 @@
-import 'dart:async';
-import 'dart:math';
-import 'dart:ui';
-
-import 'package:sensors_plus/sensors_plus.dart';
+part of 'log_console_on_shake.dart';
 
 class ShakeDetector {
   ShakeDetector(

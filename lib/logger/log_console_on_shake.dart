@@ -1,8 +1,13 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:weather/logger/shake_detector.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
 import '../router/app_page.dart';
+
+part 'shake_detector.dart';
 
 class LogConsoleOnShake extends StatefulWidget {
   const LogConsoleOnShake(this.child,

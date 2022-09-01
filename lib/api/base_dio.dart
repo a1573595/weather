@@ -1,6 +1,6 @@
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:weather/logger/header_interceptor.dart';
+import 'package:weather/api/header_interceptor.dart';
 
 import '../logger/dio_logger.dart';
 
