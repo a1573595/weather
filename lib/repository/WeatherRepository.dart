@@ -8,23 +8,24 @@ import '../model/current_weather.dart';
 
 /// Provider只能被動監聽無法使用read改變狀態
 /// autoDispose會在Provider沒有使用後自動回收
-final weatherRepository = Provider.autoDispose((ref) => WeatherRepository(ref));
+final weatherRepository = Provider.autoDispose((ref) => WeatherRepository());
 
 class WeatherRepository {
-  WeatherRepository(this.ref);
+  WeatherRepository({WeatherClient? client}) {
+    this.client = client ?? WeatherClient();
+  }
 
-  /// 讓Repository能夠存取其他Provider直接更新數值
-  final Ref ref;
+  late WeatherClient client;
 
   Future<CurrentWeather> currentWeather({CancelToken? cancelToken}) async {
     Position position = await _determinePosition();
-    return await WeatherClient().currentWeather(
+    return await client.currentWeather(
         cancelToken ?? CancelToken(), position.latitude, position.longitude);
   }
 
   Future<OneCall> oneCall({CancelToken? cancelToken}) async {
     Position position = await _determinePosition();
-    return await WeatherClient().oneCall(
+    return await client.oneCall(
         cancelToken ?? CancelToken(), position.latitude, position.longitude);
   }
 
