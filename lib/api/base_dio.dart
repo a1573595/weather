@@ -21,7 +21,7 @@ class BaseDio {
     dio.options = BaseOptions(receiveTimeout: 15000, connectTimeout: 15000);
 
     /// 配置標頭檔
-    dio.interceptors.add(HeaderInterceptor());
+    dio.interceptors.add(HeaderInterceptor());  // 添加全域Header
     dio.interceptors.add(DioLogger());
     // dio.interceptors.add(PrettyDioLogger(requestBody: true));
 

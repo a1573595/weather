@@ -10,7 +10,12 @@ final logger = _Logger();
 class _Logger {
   static late Logger _logger;
 
-  init() async {
+  init({Logger? logger}) async {
+    /// for test
+    if (logger != null) {
+      _logger = logger;
+      return;
+    }
     /// log檔輸出位置
     Directory? directory;
 

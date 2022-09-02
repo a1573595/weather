@@ -11,9 +11,10 @@ class HeaderInterceptor extends Interceptor {
     //
     // if (accessToken != null) {
     //   options.headers['Authorization'] = 'Bearer $accessToken';
-    //   options.headers['Content-Type'] = 'application/json';
-    //   options.headers['accept'] = 'application/json';
     // }
+    //
+    // options.headers['Content-Type'] = 'application/json';
+    // options.headers['Accept'] = 'application/json';
 
     super.onRequest(options, handler);
   }

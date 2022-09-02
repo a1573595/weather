@@ -6,11 +6,14 @@ import 'package:weather/model/one_call.dart';
 import '../api/weather_client.dart';
 import '../model/current_weather.dart';
 
-final weatherRepository = Provider((ref) => WeatherRepository(ref));
+/// Provider只能被動監聽無法使用read改變狀態
+/// autoDispose會在Provider沒有使用後自動回收
+final weatherRepository = Provider.autoDispose((ref) => WeatherRepository(ref));
 
 class WeatherRepository {
   WeatherRepository(this.ref);
 
+  /// 讓Repository能夠存取其他Provider直接更新數值
   final Ref ref;
 
   Future<CurrentWeather> currentWeather({CancelToken? cancelToken}) async {

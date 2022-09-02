@@ -3,6 +3,7 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +22,7 @@ import '../../utils/helper.dart';
 import '../../utils/image_util.dart';
 import '../../utils/lifecycle_event_handler.dart';
 import '../../utils/notification_util.dart';
+import '../../utils/icon_util.dart';
 import '../../widget/detail_card.dart';
 
 part 'home_view_model.dart';
@@ -37,12 +39,19 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(S.current.weather),
         actions: [
+          /// system assets
           IconButton(
             icon: const Icon(
               Icons.info_outline,
             ),
             onPressed: () => launchUrl(_url),
-          )
+          ),
+
+          /// svg assets
+          IconButton(
+            icon: SvgPicture.asset(IconUtil.info),
+            onPressed: () => launchUrl(_url),
+          ),
         ],
       ),
       body: _PopScope(),
