@@ -6,7 +6,7 @@ var _locationRequestProvider =
 });
 
 final _isLocationEnableProvider = StreamProvider.autoDispose<bool>((ref) {
-  return Stream.periodic(const Duration(seconds: 3))
+  return Stream.periodic(const Duration(seconds: 5))
       .asyncMap((_) => Geolocator.isLocationServiceEnabled());
 });
 

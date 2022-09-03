@@ -101,36 +101,31 @@ class _LocationPermissionScope extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder<PermissionStatus>(
+    /// 三方權限請求
+    /// ios需在Info.plist與Podfile額外宣告
+    var locationRequest = ref.watch(_locationRequestProvider);
 
-        /// 三方權限請求
-        /// ios需在Info.plist與Podfile額外宣告
-        future: ref.watch(_locationRequestProvider.future),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          } else if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
+    return locationRequest.when(
+        data: (data) {
+          if (data == PermissionStatus.granted ||
+              data == PermissionStatus.limited) {
+            return const _LocationEnableScope();
           } else {
-            var status = snapshot.data;
-            if (status == PermissionStatus.granted ||
-                status == PermissionStatus.limited) {
-              return const _LocationEnableScope();
-            } else {
-              /// 監聽APP是否從背景返回（ex.修改權限）
-              WidgetsBinding.instance.addObserver(LifecycleEventHandler(
+            /// 監聽APP是否從背景返回（ex.修改權限）
+            WidgetsBinding.instance.addObserver(LifecycleEventHandler(
 
-                  /// 刷新Provider
-                  resumeCallBack: () => ref.refresh(_locationRequestProvider)));
+                /// 刷新Provider
+                resumeCallBack: () => ref.refresh(_locationRequestProvider)));
 
-              return Center(
-                child: ElevatedButton(
-                    onPressed: () => Geolocator.openAppSettings(),
-                    child: Text(S.current.cant_get_permission)),
-              );
-            }
+            return Center(
+              child: ElevatedButton(
+                  onPressed: () => Geolocator.openAppSettings(),
+                  child: Text(S.current.cant_get_permission)),
+            );
           }
-        });
+        },
+        error: (e, st) => Text(e.toString()),
+        loading: () => const Center(child: CircularProgressIndicator()));
   }
 }
 
@@ -138,8 +133,28 @@ class _LocationPermissionScope extends ConsumerWidget {
 class _LocationEnableScope extends ConsumerWidget {
   const _LocationEnableScope({Key? key}) : super(key: key);
 
+  /// TODO('優化stream')
+  /// StreamBuilder與AsyncValue都會Rebuild
+  /// 是否有辦法讓value一樣時不改變？
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var locationEnable = ref.watch(_isLocationEnableProvider);
+
+    return locationEnable.when(
+        data: (data) {
+          if (data == true) {
+            return const _WeatherDataHandler();
+          } else {
+            return Center(
+              child: ElevatedButton(
+                  onPressed: () => Geolocator.openLocationSettings(),
+                  child: Text(S.current.cant_get_location)),
+            );
+          }
+        },
+        error: (e, st) => Text(e.toString()),
+        loading: () => const Center(child: CircularProgressIndicator()));
+
     return StreamBuilder(
         stream: ref.watch(_isLocationEnableProvider.stream),
         builder: (context, snapshot) {
@@ -168,23 +183,19 @@ class _WeatherDataHandler extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder<CurrentWeather>(
-        future: ref.watch(_currentWeatherProvider.future),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          } else if (!snapshot.hasData) {
-            return const _BlankBody();
-          } else {
-            var data = snapshot.data!;
+    /// FutureBuilder在refresh時會觸發兩次
+    /// 使用AsyncValue可以解決
+    var currentWeather = ref.watch(_currentWeatherProvider);
+    return currentWeather.when(
+        data: (data) {
+          notificationUtil.sendNormal(data.weathers[0].description,
+              '${data.main.temp.toStringAsFixed(0)}°',
+              notificationId: 1);
 
-            notificationUtil.sendNormal(data.weathers[0].description,
-                '${data.main.temp.toStringAsFixed(0)}°',
-                notificationId: 1);
-
-            return _Body(data);
-          }
-        });
+          return _Body(data);
+        },
+        error: (e, st) => Text(e.toString()),
+        loading: () => const _BlankBody());
   }
 }
 
