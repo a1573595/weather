@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:weather/utils/edge_util.dart';
 import 'package:weather/utils/helper.dart';
 import 'package:weather/utils/image_util.dart';
 
@@ -149,7 +150,7 @@ class _InfoBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: edgeUtil.screenVerticalPadding,
       clipBehavior: Clip.antiAlias,
       physics: const BouncingScrollPhysics(),
       child: Column(
@@ -164,7 +165,7 @@ class _InfoBody extends StatelessWidget {
           ),
           // _LineChart(data.hourly.take(24).toList()),
           _ScrollAbleLineChart(data.hourly.take(24).toList()),
-          const SizedBox(height: 40),
+          SizedBox(height: 24.r),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
@@ -172,7 +173,7 @@ class _InfoBody extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.r),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: _WeekWeather(data.daily.take(7).toList()),

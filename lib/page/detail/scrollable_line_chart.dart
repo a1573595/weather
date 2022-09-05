@@ -34,8 +34,8 @@ class _ScrollAbleLineChart extends StatelessWidget {
         maxX: 23,
 
         /// Y軸範圍
-        minY: hourly.map((e) => e.temp).reduce(min).toInt() - 10,
-        maxY: hourly.map((e) => e.temp).reduce(max).toInt() + 5,
+        minY: hourly.map((e) => e.temp).reduce(min) - 10,
+        maxY: hourly.map((e) => e.temp).reduce(max) + 5,
       );
 
   /// 圖表邊界
@@ -120,6 +120,7 @@ class _ScrollAbleLineChart extends StatelessWidget {
   /// 圖表指標圖示/文字
   LineTouchData get lineTouchData => LineTouchData(
         enabled: false,
+
         /// 圖表指標圖示
         getTouchedSpotIndicator:
             (LineChartBarData barData, List<int> spotIndexes) {
@@ -161,19 +162,19 @@ class _ScrollAbleLineChart extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       child: Row(
         children: [
-          const SizedBox(
-            width: 24,
+          SizedBox(
+            width: 24.r,
           ),
           SizedBox(
-            width: 1200,
-            height: 300,
+            width: 1000.r,
+            height: 250.r,
             child: LineChart(
               chartData,
               swapAnimationDuration: const Duration(milliseconds: 500),
             ),
           ),
-          const SizedBox(
-            width: 24,
+          SizedBox(
+            width: 24.r,
           ),
         ],
       ),

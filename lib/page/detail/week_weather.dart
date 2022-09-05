@@ -16,12 +16,12 @@ class _WeekWeather extends StatelessWidget {
     return Column(
       children: daily
           .map((value) => _buildWeather(
-          minValue,
-          len,
-          DateTime.fromMillisecondsSinceEpoch(value.dt * 1000),
-          value.weathers[0].main,
-          value.weathers[0].icon,
-          value.temp.day.toInt()))
+              minValue,
+              len,
+              DateTime.fromMillisecondsSinceEpoch(value.dt * 1000),
+              value.weathers[0].main,
+              value.weathers[0].icon,
+              value.temp.day.toInt()))
           .toList(),
     );
   }
@@ -31,33 +31,33 @@ class _WeekWeather extends StatelessWidget {
     var width = ScreenUtil().screenWidth / 4;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 0),
       child: Row(
         children: [
-          SizedBox(width: 40, child: Text(DateFormat('EEE').format(date))),
+          SizedBox(width: 40.r, child: Text(DateFormat('EEE').format(date))),
           CachedNetworkImage(
-            height: 40,
-            width: 40,
+            height: 40.r,
+            width: 40.r,
             imageUrl: '${ImageUtil.openWeatherImageUrlPrefix}$icon.png',
             placeholder: (context, url) => const SizedBox(),
             errorWidget: (context, url, error) =>
-            const Icon(Icons.error_outline),
+                const Icon(Icons.error_outline),
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: 16.r),
           Container(
-            height: 4,
+            height: 4.r,
             width: width + width * (temp - minValue) / len,
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.orange,
-                    Colors.white,
-                  ],
-                )),
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.orange,
+                Colors.white,
+              ],
+            )),
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: 16.r),
           Text('${temp.toStringAsFixed(0)}°'),
         ],
       ),

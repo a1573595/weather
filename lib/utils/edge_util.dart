@@ -10,6 +10,7 @@ class _EdgeUtil {
 
   late EdgeInsets screenPadding;
   late EdgeInsets screenHorizontalPadding;
+  late EdgeInsets screenVerticalPadding;
 
   late EdgeInsets listviewVerticalPadding;
 
@@ -24,6 +25,9 @@ class _EdgeUtil {
 
     screenHorizontalPadding =
         EdgeInsets.symmetric(horizontal: screenHorizontal);
+
+    screenVerticalPadding =
+        EdgeInsets.symmetric(vertical: screenVertical);
 
     listviewVerticalPadding = EdgeInsets.symmetric(vertical: screenVertical);
 
