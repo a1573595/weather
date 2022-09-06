@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-var notificationUtil = NotificationUtil();
+var notificationPlugin = NotificationPlugin();
 
-class NotificationUtil {
-  final FlutterLocalNotificationsPlugin _notificationPlugin =
+class NotificationPlugin {
+  final FlutterLocalNotificationsPlugin _np =
       FlutterLocalNotificationsPlugin();
 
   init() async {
@@ -14,7 +14,7 @@ class NotificationUtil {
     var ios = IOSInitializationSettings(
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
 
-    await _notificationPlugin.initialize(
+    await _np.initialize(
         InitializationSettings(android: android, iOS: ios),
         onSelectNotification: _selectNotification);
   }
@@ -63,12 +63,12 @@ class NotificationUtil {
   /// tag為Android專用
   /// 若指定tag則ID與tag要都匹配才能在Android上生效
   void cancelNotification(int id, {String? tag}) {
-    _notificationPlugin.cancel(id, tag: tag);
+    _np.cancel(id, tag: tag);
   }
 
   /// 清除所有通知
   void cleanNotification() {
-    _notificationPlugin.cancelAll();
+    _np.cancelAll();
   }
 
   void sendNormal(String title, String body,
@@ -113,7 +113,7 @@ class NotificationUtil {
     var details = NotificationDetails(android: androidDetails, iOS: iosDetails);
 
     /// 顯示通知
-    _notificationPlugin.show(
+    _np.show(
         notificationId ?? DateTime.now().millisecondsSinceEpoch >> 10,
         title,
         body,

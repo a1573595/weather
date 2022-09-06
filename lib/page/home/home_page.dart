@@ -21,7 +21,7 @@ import '../../utils/edge_util.dart';
 import '../../utils/helper.dart';
 import '../../utils/image_util.dart';
 import '../../utils/lifecycle_event_handler.dart';
-import '../../utils/notification_util.dart';
+import '../../utils/notification_plugin.dart';
 import '../../utils/icon_util.dart';
 import '../../widget/detail_card.dart';
 
@@ -188,7 +188,7 @@ class _WeatherDataHandler extends ConsumerWidget {
     var currentWeather = ref.watch(_currentWeatherProvider);
     return currentWeather.when(
         data: (data) {
-          notificationUtil.sendNormal(data.weathers[0].description,
+          notificationPlugin.sendNormal(data.weathers[0].description,
               '${data.main.temp.toStringAsFixed(0)}°',
               notificationId: 1);
 
@@ -205,7 +205,7 @@ class _BlankBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: edgeUtil.screenPadding,
+      padding: EdgeUtil.screenPadding,
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
@@ -365,7 +365,7 @@ class _Body extends ConsumerWidget {
         _controller.resetFooter();
       },
       child: SingleChildScrollView(
-        padding: edgeUtil.listviewVerticalPadding,
+        padding: EdgeUtil.listviewVerticalPadding,
         child: Column(
           children: [
             Row(
@@ -398,7 +398,7 @@ class _Body extends ConsumerWidget {
               ],
             ),
             Container(
-              padding: edgeUtil.screenPadding,
+              padding: EdgeUtil.screenPadding,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage(ImageUtil.header), fit: BoxFit.cover),
@@ -470,7 +470,7 @@ class _Body extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Container(
-              padding: edgeUtil.screenHorizontalPadding,
+              padding: EdgeUtil.screenHorizontalPadding,
               alignment: Alignment.centerLeft,
               child: Text(
                 'Details',
@@ -479,7 +479,7 @@ class _Body extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Padding(
-              padding: edgeUtil.screenHorizontalPadding,
+              padding: EdgeUtil.screenHorizontalPadding,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[

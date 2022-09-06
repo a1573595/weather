@@ -150,7 +150,7 @@ class _InfoBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: edgeUtil.screenVerticalPadding,
+      padding: EdgeUtil.screenVerticalPadding,
       clipBehavior: Clip.antiAlias,
       physics: const BouncingScrollPhysics(),
       child: Column(

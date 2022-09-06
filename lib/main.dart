@@ -7,7 +7,7 @@ import 'package:weather/router/app_router.dart';
 import 'package:weather/utils/color_util.dart';
 import 'package:weather/logger/logger.dart';
 import 'package:weather/utils/edge_util.dart';
-import 'package:weather/utils/notification_util.dart';
+import 'package:weather/utils/notification_plugin.dart';
 import 'package:weather/utils/text_util.dart';
 
 void main() async {
@@ -16,7 +16,7 @@ void main() async {
 
   /// 初始化logger
   await logger.init();
-  await notificationUtil.init();
+  await notificationPlugin.init();
 
   logger.i('Start App');
 
@@ -50,7 +50,7 @@ class Weather extends StatelessWidget {
         /// MaterialApp為Android style、CupertinoApp為ios style
         /// 後續仍可以混用雙方元件
         builder: (context, child) {
-          edgeUtil.init();
+          EdgeUtil.initAfterScreenUtil();
           var textTheme = customEnglishLike2018.apply(fontSizeFactor: 1.sp);
 
           return MaterialApp.router(

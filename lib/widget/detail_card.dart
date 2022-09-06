@@ -25,7 +25,7 @@ class DetailCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: edgeUtil.cardPadding,
+              padding: EdgeUtil.cardPadding,
               child: Container(
                 height: 5.0,
                 decoration: BoxDecoration(
