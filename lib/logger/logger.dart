@@ -16,6 +16,7 @@ class _Logger {
       _logger = logger;
       return;
     }
+
     /// log檔輸出位置
     Directory? directory;
 
@@ -30,7 +31,9 @@ class _Logger {
 
     /// 配置輸出在File與Console
     _logger = Logger(
-        printer: PrettyPrinter(printTime: true),
+        printer: PrettyPrinter(
+          printTime: true,
+        ),
         output: MultiOutput([
           /// web不支援path_provider沒有輸出檔案
           if (directory != null)
