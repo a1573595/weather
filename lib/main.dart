@@ -16,7 +16,7 @@ void main() async {
 
   /// 初始化logger
   await logger.init();
-  await notificationPlugin.init();
+  notificationUtil.init();
 
   logger.i('Start App');
 
@@ -55,9 +55,7 @@ class Weather extends StatelessWidget {
 
           return MaterialApp.router(
             /// 使用GoRouter取代Navigator管理路由
-            routeInformationProvider: rootRouter.routeInformationProvider,
-            routeInformationParser: rootRouter.routeInformationParser,
-            routerDelegate: rootRouter.routerDelegate,
+            routerConfig: rootRouter,
 
             /// App名稱
             title: 'Weather',

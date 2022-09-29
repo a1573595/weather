@@ -39,14 +39,6 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(S.current.weather),
         actions: [
-          /// system assets
-          IconButton(
-            icon: const Icon(
-              Icons.info_outline,
-            ),
-            onPressed: () => launchUrl(_url),
-          ),
-
           /// svg assets
           IconButton(
             icon: SvgPicture.asset(IconUtil.info),
@@ -188,7 +180,7 @@ class _WeatherDataHandler extends ConsumerWidget {
     var currentWeather = ref.watch(_currentWeatherProvider);
     return currentWeather.when(
         data: (data) {
-          notificationPlugin.sendNormal(data.weathers[0].description,
+          notificationUtil.sendNormal(data.weathers[0].description,
               '${data.main.temp.toStringAsFixed(0)}°',
               notificationId: 1);
 

@@ -29,7 +29,6 @@ final rootRouter = GoRouter(routes: [
         GoRoute(
             name: AppPage.detail.name,
             path: AppPage.detail.path,
-            builder: (context, state) => const DetailPage(),
-            routes: []),
+            builder: (context, state) => const DetailPage()),
       ]),
 ]);

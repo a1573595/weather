@@ -1,35 +1,29 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-var notificationPlugin = NotificationPlugin();
+var notificationUtil = NotificationUtil();
 
-class NotificationPlugin {
-  final FlutterLocalNotificationsPlugin _np =
-      FlutterLocalNotificationsPlugin();
+class NotificationUtil {
+  final FlutterLocalNotificationsPlugin _np = FlutterLocalNotificationsPlugin();
 
-  init() async {
+  init() {
     var android = const AndroidInitializationSettings("@mipmap/ic_launcher");
 
     /// iOS需要在AppDelegate註冊UNUserNotificationCenterDelegate
-    var ios = IOSInitializationSettings(
-        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    var ios = DarwinInitializationSettings(
+        onDidReceiveLocalNotification: _onDidReceiveLocalNotification);
 
-    await _np.initialize(
-        InitializationSettings(android: android, iOS: ios),
-        onSelectNotification: _selectNotification);
-  }
-
-  /// 點擊Notification事件
-  void _selectNotification(String? payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: $payload');
-
-      /// do something
-    }
+    /// 不要等待完成，iOS會卡在權限請求
+    _np.initialize(
+      InitializationSettings(android: android, iOS: ios),
+      onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
+      onDidReceiveBackgroundNotificationResponse:
+          _onDidReceiveBackgroundNotificationResponse,
+    );
   }
 
   /// iOS10以前前景通知需要額外顯示
-  void onDidReceiveLocalNotification(
+  void _onDidReceiveLocalNotification(
       int id, String? title, String? body, String? payload) async {
     // display a dialog with the notification details, tap ok to go to another page
 
@@ -57,6 +51,22 @@ class NotificationPlugin {
     //     ],
     //   ),
     // );
+  }
+
+  /// 前景通知Callback
+  void _onDidReceiveNotificationResponse(NotificationResponse response) {
+    debugPrint('notification payload: ${response.payload}');
+
+    /// do something
+  }
+
+  /// 背景通知Callback
+  /// 需要宣告為靜態fun
+  static void _onDidReceiveBackgroundNotificationResponse(
+      NotificationResponse response) {
+    debugPrint('notification payload: ${response.payload}');
+
+    /// do something
   }
 
   /// 清除指定ID的通知
@@ -100,24 +110,16 @@ class NotificationPlugin {
     );
 
     /// iOS配置
-    var iosDetails = const IOSNotificationDetails(
-        // this.presentAlert,
-        // this.presentBadge,
-        // this.presentSound,
-        // this.sound,
-        // this.badgeNumber,
-        // this.attachments,
-        // this.subtitle,
-        // this.threadIdentifier,
-        );
+    var iosDetails = const DarwinNotificationDetails(
+      presentAlert: false,
+      presentBadge: true,
+      presentSound: false,
+    );
     var details = NotificationDetails(android: androidDetails, iOS: iosDetails);
 
     /// 顯示通知
-    _np.show(
-        notificationId ?? DateTime.now().millisecondsSinceEpoch >> 10,
-        title,
-        body,
-        details,
+    _np.show(notificationId ?? DateTime.now().millisecondsSinceEpoch >> 10,
+        title, body, details,
         payload: params);
   }
 }
