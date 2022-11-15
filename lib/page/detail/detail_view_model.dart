@@ -1,18 +1,19 @@
 part of 'detail_page.dart';
 
-final oneCallProvider = FutureProvider.autoDispose<OneCall>((ref) async {
-  final cancelToken = CancelToken();
-
+final _oneCallProvider = FutureProvider.autoDispose<OneCall>((ref) async {
   /// 當Provider回收時將Request取消
+  final cancelToken = CancelToken();
   ref.onDispose(() => cancelToken.cancel());
 
   final repository = ref.read(weatherRepository);
   final response = await repository.oneCall(cancelToken: cancelToken);
 
-  /// 請求成功後設定maintainState為true保留狀態
-  /// 當不需要時要改為false才會被回收
-  /// TODO('如何在外部關閉maintainState? ')
-  ref.maintainState = true;
+  /// 保留10分鐘狀態緩存
+  var link = ref.keepAlive();
+  final timer = Timer(const Duration(minutes: 10), () {
+    link.close();
+  });
+  ref.onDispose(() => timer.cancel());
 
   return response;
 });

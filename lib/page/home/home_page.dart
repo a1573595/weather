@@ -526,7 +526,8 @@ class _Body extends ConsumerWidget {
                   var router = GoRouter.of(context);
 
                   /// 前往/home.detail
-                  router.go('${router.location}${AppPage.detail.fullPath}');
+                  router
+                      .go('${AppPage.home.fullPath}${AppPage.detail.fullPath}');
                 },
                 style: ElevatedButton.styleFrom(
                     elevation: 4, backgroundColor: ColorUtil.orange),

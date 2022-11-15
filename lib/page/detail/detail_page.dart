@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -42,30 +43,10 @@ class _Body extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder<OneCall>(
-        future: ref.watch(oneCallProvider.future),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          } else if (!snapshot.hasData) {
-            return const _BlankBody();
-          } else {
-            /// TODO('是否有其他方法？')
-            /// 逾時一小時刷新資料
-            var timestamp = snapshot.data!.hourly[0].dt * 1000;
-            var dataDateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
-
-            if (DateTime.now().hour != dataDateTime.hour) {
-              /// 不能在build過程觸發setState因此改用addPostFrameCallback
-              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                ref.refresh(oneCallProvider);
-              });
-              return const _BlankBody();
-            } else {
-              return _InfoBody(snapshot.data!);
-            }
-          }
-        });
+    return ref.watch(_oneCallProvider).when(
+        data: (data) => _InfoBody(data),
+        error: (e, st) => Text(e.toString()),
+        loading: () => const _BlankBody());
   }
 }
 
