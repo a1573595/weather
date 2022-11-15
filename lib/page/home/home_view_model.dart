@@ -5,7 +5,12 @@ var _locationRequestProvider =
   return Permission.locationWhenInUse.request();
 });
 
-final _isLocationEnableProvider = StreamProvider.autoDispose<bool>((ref) {
+final _isLocationEnableProvider =
+    Provider.autoDispose<AsyncValue<bool>>((ref) {
+  return ref.watch(_isLocationEnableRefresh.select((value) => value));
+});
+
+final _isLocationEnableRefresh = StreamProvider.autoDispose<bool>((ref) {
   return Stream.periodic(const Duration(seconds: 5))
       .asyncMap((_) => Geolocator.isLocationServiceEnabled());
 });

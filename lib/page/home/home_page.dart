@@ -125,9 +125,6 @@ class _LocationPermissionScope extends ConsumerWidget {
 class _LocationEnableScope extends ConsumerWidget {
   const _LocationEnableScope({Key? key}) : super(key: key);
 
-  /// TODO('優化stream')
-  /// StreamBuilder與AsyncValue都會Rebuild
-  /// 是否有辦法讓value一樣時不改變？
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var locationEnable = ref.watch(_isLocationEnableProvider);
@@ -147,26 +144,27 @@ class _LocationEnableScope extends ConsumerWidget {
         error: (e, st) => Text(e.toString()),
         loading: () => const Center(child: CircularProgressIndicator()));
 
-    return StreamBuilder(
-        stream: ref.watch(_isLocationEnableProvider.stream),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          } else if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            var status = snapshot.data;
-            if (status == true) {
-              return const _WeatherDataHandler();
-            } else {
-              return Center(
-                child: ElevatedButton(
-                    onPressed: () => Geolocator.openLocationSettings(),
-                    child: Text(S.current.cant_get_location)),
-              );
-            }
-          }
-        });
+    /// StreamBuilder會Rebuild
+    // return StreamBuilder(
+    //     stream: ref.watch(_isLocationEnableProvider.stream),
+    //     builder: (context, snapshot) {
+    //       if (snapshot.hasError) {
+    //         return Text(snapshot.error.toString());
+    //       } else if (!snapshot.hasData) {
+    //         return const Center(child: CircularProgressIndicator());
+    //       } else {
+    //         var status = snapshot.data;
+    //         if (status == true) {
+    //           return const _WeatherDataHandler();
+    //         } else {
+    //           return Center(
+    //             child: ElevatedButton(
+    //                 onPressed: () => Geolocator.openLocationSettings(),
+    //                 child: Text(S.current.cant_get_location)),
+    //           );
+    //         }
+    //       }
+    //     });
   }
 }
 
