@@ -4,8 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weather/router/app_page.dart';
 import 'package:weather/utils/color_util.dart';
-
-import '../../utils/image_util.dart';
+import 'package:weather/utils/image_util.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);

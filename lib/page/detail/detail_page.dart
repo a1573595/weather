@@ -9,14 +9,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:weather/model/daily.dart';
+import 'package:weather/model/hourly.dart';
+import 'package:weather/model/one_call.dart';
+import 'package:weather/repository/WeatherRepository.dart';
 import 'package:weather/utils/edge_util.dart';
 import 'package:weather/utils/helper.dart';
 import 'package:weather/utils/image_util.dart';
-
-import '../../model/daily.dart';
-import '../../model/hourly.dart';
-import '../../model/one_call.dart';
-import '../../repository/WeatherRepository.dart';
 
 part 'detail_view_model.dart';
 

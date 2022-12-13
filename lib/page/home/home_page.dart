@@ -10,20 +10,19 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:weather/generated/l10n.dart';
 import 'package:weather/logger/log_console_on_shake.dart';
+import 'package:weather/model/current_weather.dart';
+import 'package:weather/repository/WeatherRepository.dart';
 import 'package:weather/router/app_page.dart';
 import 'package:weather/utils/color_util.dart';
-
-import '../../generated/l10n.dart';
-import '../../model/current_weather.dart';
-import '../../repository/WeatherRepository.dart';
-import '../../utils/edge_util.dart';
-import '../../utils/helper.dart';
-import '../../utils/image_util.dart';
-import '../../utils/lifecycle_event_handler.dart';
-import '../../utils/notification_plugin.dart';
-import '../../utils/icon_util.dart';
-import '../../widget/detail_card.dart';
+import 'package:weather/utils/edge_util.dart';
+import 'package:weather/utils/helper.dart';
+import 'package:weather/utils/icon_util.dart';
+import 'package:weather/utils/image_util.dart';
+import 'package:weather/utils/lifecycle_event_handler.dart';
+import 'package:weather/utils/notification_plugin.dart';
+import 'package:weather/widget/detail_card.dart';
 
 part 'home_view_model.dart';
 
@@ -412,7 +411,7 @@ class _Body extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
+                    children: [
                       Text(
                         '${data.main.temp.toStringAsFixed(0)}°',
                         style: Theme.of(context).textTheme.displayLarge,
@@ -427,7 +426,7 @@ class _Body extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
+                    children: [
                       CachedNetworkImage(
                         height: 40,
                         width: 40,
@@ -472,10 +471,10 @@ class _Body extends ConsumerWidget {
               padding: EdgeUtil.screenHorizontalPadding,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
+                children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
+                    children: [
                       Expanded(
                         child: DetailCard(
                             ColorUtil.lightBlue,
@@ -497,7 +496,7 @@ class _Body extends ConsumerWidget {
                   const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
+                    children: [
                       Expanded(
                         child: DetailCard(
                             ColorUtil.greenAccent,
