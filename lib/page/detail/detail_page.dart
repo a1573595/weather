@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:weather/model/daily.dart';
 import 'package:weather/model/hourly.dart';
 import 'package:weather/model/one_call.dart';
@@ -16,6 +15,7 @@ import 'package:weather/repository/WeatherRepository.dart';
 import 'package:weather/utils/edge_util.dart';
 import 'package:weather/utils/helper.dart';
 import 'package:weather/utils/image_util.dart';
+import 'package:weather/widget/shimmer.dart';
 
 part 'detail_view_model.dart';
 
@@ -62,8 +62,6 @@ class _BlankBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
             child: Container(
               width: double.infinity,
               color: Colors.white,
@@ -77,8 +75,6 @@ class _BlankBody extends StatelessWidget {
             height: 12,
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
             child: Container(
                 width: double.infinity,
                 height: 300,
@@ -91,8 +87,6 @@ class _BlankBody extends StatelessWidget {
             height: 28,
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
             child: Container(
               width: double.infinity,
               color: Colors.white,
@@ -106,8 +100,6 @@ class _BlankBody extends StatelessWidget {
             height: 12,
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
             child: Container(
                 width: double.infinity,
                 height: 300,

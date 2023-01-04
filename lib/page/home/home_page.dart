@@ -9,7 +9,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:weather/generated/l10n.dart';
 import 'package:weather/logger/log_console_on_shake.dart';
 import 'package:weather/model/current_weather.dart';
@@ -23,6 +22,7 @@ import 'package:weather/utils/image_util.dart';
 import 'package:weather/utils/lifecycle_event_handler.dart';
 import 'package:weather/utils/notification_plugin.dart';
 import 'package:weather/widget/detail_card.dart';
+import 'package:weather/widget/shimmer.dart';
 
 part 'home_view_model.dart';
 
@@ -202,8 +202,6 @@ class _BlankBody extends StatelessWidget {
             height: 10,
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
             child: Container(
               width: double.infinity,
               color: Colors.white,
@@ -217,8 +215,6 @@ class _BlankBody extends StatelessWidget {
             height: 20,
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
             child: Container(
               width: double.infinity,
               color: Colors.white,
@@ -232,8 +228,6 @@ class _BlankBody extends StatelessWidget {
             height: 20,
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
             child: Container(
                 width: double.infinity,
                 height: 180,
@@ -246,8 +240,6 @@ class _BlankBody extends StatelessWidget {
             height: 40,
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
             child: Container(
               width: double.infinity,
               color: Colors.white,
@@ -265,8 +257,6 @@ class _BlankBody extends StatelessWidget {
             children: [
               Expanded(
                   child: Shimmer.fromColors(
-                baseColor: Colors.grey.shade300,
-                highlightColor: Colors.grey.shade100,
                 child: Container(
                     width: double.infinity,
                     height: 120,
@@ -280,8 +270,6 @@ class _BlankBody extends StatelessWidget {
               ),
               Expanded(
                   child: Shimmer.fromColors(
-                baseColor: Colors.grey.shade300,
-                highlightColor: Colors.grey.shade100,
                 child: Container(
                     width: double.infinity,
                     height: 120,
@@ -300,8 +288,6 @@ class _BlankBody extends StatelessWidget {
             children: [
               Expanded(
                   child: Shimmer.fromColors(
-                baseColor: Colors.grey.shade300,
-                highlightColor: Colors.grey.shade100,
                 child: Container(
                     width: double.infinity,
                     height: 120,
@@ -315,8 +301,6 @@ class _BlankBody extends StatelessWidget {
               ),
               Expanded(
                   child: Shimmer.fromColors(
-                baseColor: Colors.grey.shade300,
-                highlightColor: Colors.grey.shade100,
                 child: Container(
                     width: double.infinity,
                     height: 120,
