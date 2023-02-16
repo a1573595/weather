@@ -6,15 +6,11 @@ class EdgeUtil {
   static double screenHorizontal = 24;
   static double screenVertical = 16;
 
-  static EdgeInsets screenPadding = EdgeInsets.symmetric(
-      horizontal: screenHorizontal, vertical: screenVertical);
-  static EdgeInsets screenHorizontalPadding =
-      EdgeInsets.symmetric(horizontal: screenHorizontal);
-  static EdgeInsets screenVerticalPadding =
-      EdgeInsets.symmetric(vertical: screenVertical);
+  static EdgeInsets screenPadding = EdgeInsets.symmetric(horizontal: screenHorizontal, vertical: screenVertical);
+  static EdgeInsets screenHorizontalPadding = EdgeInsets.symmetric(horizontal: screenHorizontal);
+  static EdgeInsets screenVerticalPadding = EdgeInsets.symmetric(vertical: screenVertical);
 
-  static EdgeInsets listviewVerticalPadding =
-      EdgeInsets.symmetric(vertical: screenVertical);
+  static EdgeInsets listviewVerticalPadding = EdgeInsets.symmetric(vertical: screenVertical);
 
   static EdgeInsets cardPadding = EdgeInsets.all(8.r);
 
@@ -22,11 +18,9 @@ class EdgeUtil {
     screenHorizontal = 24.r;
     screenVertical = 16.r;
 
-    screenPadding = EdgeInsets.symmetric(
-        horizontal: screenHorizontal, vertical: screenVertical);
+    screenPadding = EdgeInsets.symmetric(horizontal: screenHorizontal, vertical: screenVertical);
 
-    screenHorizontalPadding =
-        EdgeInsets.symmetric(horizontal: screenHorizontal);
+    screenHorizontalPadding = EdgeInsets.symmetric(horizontal: screenHorizontal);
 
     screenVerticalPadding = EdgeInsets.symmetric(vertical: screenVertical);
 

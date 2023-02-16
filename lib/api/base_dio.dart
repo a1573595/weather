@@ -1,12 +1,11 @@
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:weather/api/header_interceptor.dart';
-
-import '../logger/dio_logger.dart';
+import 'package:dio/io.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class BaseDio {
-  /// Dart單例模式
   static final BaseDio _instance = BaseDio._internal();
+
+  static const defaultTimeout = Duration(seconds: 15);
 
   factory BaseDio() {
     return _instance;
@@ -15,30 +14,14 @@ class BaseDio {
   BaseDio._internal();
 
   Dio getDio() {
-    final Dio dio = Dio();
+    final Dio dio = Dio(BaseOptions(receiveTimeout: defaultTimeout, connectTimeout: defaultTimeout));
 
-    /// 配置收送Timeout
-    dio.options = BaseOptions(receiveTimeout: 15000, connectTimeout: 15000);
+    dio.interceptors.add(PrettyDioLogger(requestBody: true, responseBody: true));
 
-    /// 配置標頭檔
-    dio.interceptors.add(HeaderInterceptor());  // 添加全域Header
-    dio.interceptors.add(DioLogger());
-    // dio.interceptors.add(PrettyDioLogger(requestBody: true));
-
-    /// ignore certification
-    String PEM = 'XXXXX'; // certificate content
-    if (dio.httpClientAdapter is DefaultHttpClientAdapter) {
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-          (client) {
-        client.badCertificateCallback = (cert, String host, int port) {
-          // return cert.pem == PEM;
-          return true;
-        };
-      };
-    }
-    /* else if(dio.httpClientAdapter is BrowserHttpClientAdapter) {
-
-    } */
+    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
+      client.badCertificateCallback = (cert, host, port) => true;
+      return client;
+    };
 
     return dio;
   }

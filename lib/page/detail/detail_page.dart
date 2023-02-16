@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +12,12 @@ import 'package:intl/intl.dart';
 import 'package:weather/model/daily.dart';
 import 'package:weather/model/hourly.dart';
 import 'package:weather/model/one_call.dart';
-import 'package:weather/repository/WeatherRepository.dart';
+import 'package:weather/repository/weather_repository.dart';
 import 'package:weather/utils/edge_util.dart';
-import 'package:weather/utils/helper.dart';
 import 'package:weather/utils/image_util.dart';
 import 'package:weather/widget/shimmer.dart';
 
 part 'detail_view_model.dart';
-
-part 'line_chart.dart';
 
 part 'scrollable_line_chart.dart';
 

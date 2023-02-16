@@ -12,7 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:weather/generated/l10n.dart';
 import 'package:weather/logger/log_console_on_shake.dart';
 import 'package:weather/model/current_weather.dart';
-import 'package:weather/repository/WeatherRepository.dart';
+import 'package:weather/repository/weather_repository.dart';
 import 'package:weather/router/app_page.dart';
 import 'package:weather/utils/color_util.dart';
 import 'package:weather/utils/edge_util.dart';

@@ -14,7 +14,7 @@ class LogConsoleOnShake extends StatefulWidget {
       {Key? key, this.debugOnly = true, this.dark = false})
       : super(key: key);
 
-  final Widget child;
+  final Widget? child;
   final bool debugOnly;
   final bool dark;
 
@@ -41,7 +41,7 @@ class _LogConsoleOnShakeState extends State<LogConsoleOnShake> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return widget.child ?? const SizedBox();
   }
 
   _init() {
@@ -49,7 +49,7 @@ class _LogConsoleOnShakeState extends State<LogConsoleOnShake> {
   }
 
   _openLogConsole() async {
-    var router = GoRouter.of(context);
+    final router = GoRouter.of(context);
     if (!router.location.contains(AppPage.logConsole.path)) {
       router.push(AppPage.logConsole.fullPath);
     }

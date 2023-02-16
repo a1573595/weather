@@ -51,9 +51,15 @@ class Weather extends StatelessWidget {
         /// 後續仍可以混用雙方元件
         builder: (context, child) {
           EdgeUtil.initAfterScreenUtil();
-          var textTheme = customEnglishLike2018.apply(fontSizeFactor: 1.sp);
+          final textTheme = customEnglishLike2018.apply(fontSizeFactor: 1.sp);
 
           return MaterialApp.router(
+            builder: (context, child) {
+              return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: child!);
+            },
+
             /// 使用GoRouter取代Navigator管理路由
             routerConfig: rootRouter,
 

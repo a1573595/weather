@@ -21,14 +21,16 @@ final rootRouter = GoRouter(routes: [
 
   /// home與splash分支獨立分開撰寫
   GoRoute(
-      name: AppPage.home.name,
-      path: AppPage.home.fullPath,
-      builder: (context, state) => const HomePage(),
-      routes: [
-        /// detail依賴於home因此寫在detail內
-        GoRoute(
-            name: AppPage.detail.name,
-            path: AppPage.detail.path,
-            builder: (context, state) => const DetailPage()),
-      ]),
+    name: AppPage.home.name,
+    path: AppPage.home.fullPath,
+    builder: (context, state) => const HomePage(),
+    routes: [
+      /// detail依賴於home因此寫在detail內
+      GoRoute(
+        name: AppPage.detail.name,
+        path: AppPage.detail.path,
+        builder: (context, state) => const DetailPage(),
+      ),
+    ],
+  ),
 ]);
