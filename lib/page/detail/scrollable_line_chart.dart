@@ -48,13 +48,13 @@ class _ScrollAbleLineChart extends StatelessWidget {
 
   /// 圖表刻度
   FlTitlesData get titlesData => FlTitlesData(
-        leftTitles: AxisTitles(
+        leftTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
-        topTitles: AxisTitles(
+        topTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
-        rightTitles: AxisTitles(
+        rightTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
         bottomTitles: AxisTitles(
@@ -170,7 +170,7 @@ class _ScrollAbleLineChart extends StatelessWidget {
             height: 250.r,
             child: LineChart(
               chartData,
-              swapAnimationDuration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
             ),
           ),
           SizedBox(

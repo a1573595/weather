@@ -4,15 +4,13 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sensors_plus/sensors_plus.dart';
-
-import '../router/app_page.dart';
+import 'package:weather/router/app_page.dart';
+import 'package:weather/utils/extension_util.dart';
 
 part 'shake_detector.dart';
 
 class LogConsoleOnShake extends StatefulWidget {
-  const LogConsoleOnShake(this.child,
-      {Key? key, this.debugOnly = true, this.dark = false})
-      : super(key: key);
+  const LogConsoleOnShake(this.child, {super.key, this.debugOnly = true, this.dark = false});
 
   final Widget? child;
   final bool debugOnly;
@@ -50,7 +48,7 @@ class _LogConsoleOnShakeState extends State<LogConsoleOnShake> {
 
   _openLogConsole() async {
     final router = GoRouter.of(context);
-    if (!router.location.contains(AppPage.logConsole.path)) {
+    if (!router.currentLocation.contains(AppPage.logConsole.path)) {
       router.push(AppPage.logConsole.fullPath);
     }
   }

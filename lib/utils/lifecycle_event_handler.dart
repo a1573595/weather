@@ -26,6 +26,8 @@ class LifecycleEventHandler extends WidgetsBindingObserver {
           suspendingCallBack!();
         }
         break;
+      case AppLifecycleState.hidden:
+        break;
     }
 
     _lastState = state;

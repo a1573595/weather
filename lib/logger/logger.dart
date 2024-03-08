@@ -38,25 +38,25 @@ class _Logger {
         ]));
 
     FlutterError.onError = (FlutterErrorDetails details) {
-      _logger.e('Unhandled Exception:', details.exception, details.stack);
+      _logger.e('Unhandled Exception:', error: details.exception, stackTrace: details.stack);
     };
 
     PlatformDispatcher.instance.onError = (error, stack) {
-      _logger.e('Unhandled Exception:', error, stack);
+      _logger.e('Unhandled Exception:', error: error, stackTrace: stack);
 
       return true;
     };
   }
 
-  v(dynamic message, [dynamic error, StackTrace? stackTrace]) => _logger.v(message, error, stackTrace);
+  d(dynamic message, [dynamic error, StackTrace? stackTrace]) =>
+      _logger.d(message, error: error, stackTrace: stackTrace);
 
-  d(dynamic message, [dynamic error, StackTrace? stackTrace]) => _logger.d(message, error, stackTrace);
+  i(dynamic message, [dynamic error, StackTrace? stackTrace]) =>
+      _logger.i(message, error: error, stackTrace: stackTrace);
 
-  i(dynamic message, [dynamic error, StackTrace? stackTrace]) => _logger.i(message, error, stackTrace);
+  w(dynamic message, [dynamic error, StackTrace? stackTrace]) =>
+      _logger.w(message, error: error, stackTrace: stackTrace);
 
-  w(dynamic message, [dynamic error, StackTrace? stackTrace]) => _logger.w(message, error, stackTrace);
-
-  e(dynamic message, [dynamic error, StackTrace? stackTrace]) => _logger.e(message, error, stackTrace);
-
-  wtf(dynamic message, [dynamic error, StackTrace? stackTrace]) => _logger.wtf(message, error, stackTrace);
+  e(dynamic message, [dynamic error, StackTrace? stackTrace]) =>
+      _logger.e(message, error: error, stackTrace: stackTrace);
 }
